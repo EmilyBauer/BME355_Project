@@ -13,11 +13,10 @@ Sarah Schwartzel 	20710946
 import collections
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.optimize import fsolve
 from sklearn.linear_model import Ridge
+from scipy.optimize import fsolve
 from scipy.special import expit
-from scipy.integrate import solve_ivp
-from scipy.integrate import quad 
+from scipy.integrate import solve_ivp, quad, dblquad
 import math
 
 """
@@ -75,10 +74,8 @@ class SwingPhase:
 
     def get_angle_foot(self):   # alphaF is the angular motion of the foot. alphaF = 0 when foot is horizontal
         #get the integral of angular acceleration
-        angular_velocity_foot = quad(get_angular_acceleration_foot(), 0, t)
-        angle_foot = quad(angular_veloci)
         #get the integral of that integral
-        return angle_foot
+        return dblquad(get_angular_acceleration_foot(), 0, t)
     
     def get_angle_shank(self):  # alphaS is the shank orientation in 3D space. alphaS = 0 when shank is vertical
         return 0
