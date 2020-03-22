@@ -57,8 +57,8 @@ LCE, opt = 0.82
 class SwingPhase:
     def __init__(self, muscle_excitation):
         self.resting_MT_length = 0.381
-        self.mass_foot = 5              # mF is the mass of the foot
-        self.foot_center = 0.08         # cF is the foot’s center of mass location with respect to the ankle
+        self.mass_foot = 1.05           # mF is the mass of the foot (kg)   # (this value is from anthropometric data)
+        self.foot_center = 0.08         # cF is the foot’s center of mass location with respect to the ankle # WHERE FROM?
         self.lever_arm = 0.037          # d is the lever arm of the tibialis anterior at the ankle. d = 0.037
         self.tendon_length = 0.317      # lT is the tendon length constant. lT = 0.317
         self.time_activation = 0.04     # is the time constant for activation. Tact = 0.04s
