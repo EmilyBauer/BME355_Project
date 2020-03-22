@@ -51,9 +51,8 @@ gmax = 0.82
 LCE, opt = 0.82   
 #---- not complete (but almost) ----
 
-
 class SwingPhase:
-    def __init__(self, muscle_excitation, phi, soleus_length):
+    def __init__(self, muscle_excitation, phi):
         self.soleus_length = 0.3
         self.resting_MT_length = 0.381
         self.mass_foot = 5  # mF is the mass of the foot
@@ -65,10 +64,15 @@ class SwingPhase:
         self.gmax = 0.82          # idk what this is for
         self.LCE_opt = 0.082     # optimal contractile element length (fibre length at which optimal force can be generated)
         self.width_parameter = 0.56 # describing the overlapping of filaments in the sarcomere
-        self.v_max = #NOT SURE YET
-        self.max_isometric_force = #NOT SURE YET
+        self.v_max = 0 #NOT SURE YET
+        self.max_isometric_force = 0    #NOT SURE YET
 
+    def get_angular_acceleration_foot(): #derivative of w_f
+        return ((self.get_TA_torque() + self.get_gravity_torque() + self.mass_foot*self.foot_center*(self.get_ankle_x_acceleration()*math.sin(self.get_angle_foot()) - self.get_ankle_y_acceleration()*math.cos(self.get_angle_foot)))/(self.get_relative_angle_foot())
+        
     def get_angle_foot():   # alphaF is the angular motion of the foot. alphaF = 0 when foot is horizontal
+        #get the integral of angular acceleration
+        #get the integral of that integral
         return
     
     def get_angle_shank():  # alphaS is the shank orientation in 3D space. alphaS = 0 when shank is vertical
@@ -131,12 +135,12 @@ class SwingPhase:
     
     def get_continuous_derivative_factor(): 
         return ((self.get_lambda() * self.v_max * 0.25 * (self.gmax - 1))/(0.25 + 1))
-
+        
+   
 
 """
 Swing phase between 0 and 0.3 -  80% of swing cycle
 """
-
 # multiple functions to model/optimise epsilon
 # define function
 
