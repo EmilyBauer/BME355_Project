@@ -95,7 +95,7 @@ def muscle_excitation_3_singleval(time):
 def muscle_excitation_3(time):
     percents = (time/0.375 *100)%100
     muscle_excitations = []
-    print(percents)
+    # print(percents)
     for percent in percents:
         if percent < 0:
             print("this is an issue! (x is less than 0)")
@@ -122,13 +122,13 @@ sol = solve_ivp(activation_dot, [0, 0.3], [0], max_step=.01, rtol=1e-5, atol=1e-
 #print(sol.y)
 print(sol.y[0, -1])
 print('kaljdfhoaiep oewihcfpoiaewf')
-for i in range(len(sol.y[0])):
-    if sol.y[0,i] > 1:
-        sol.y[0,i] = 1
-    elif sol.y[0,i] < 0:
-        sol.y[0, i] = 0
+# for i in range(len(sol.y[0])):
+#     if sol.y[0,i] > 1:
+#         sol.y[0,i] = 1
+#     elif sol.y[0,i] < 0:
+#         sol.y[0, i] = 0
 
-print(sol.y)
+
 muscle_excitations = muscle_excitation_3(sol.t)
 plt.figure()
 plt.plot(sol.t, muscle_excitations)
@@ -141,6 +141,8 @@ plt.show()
 """
 0 < fad < 1
 """
+print("fad")
+print(sol.y[0])
 plt.figure()
 plt.plot(sol.t, sol.y[0])
 plt.xlabel('Time (s)')

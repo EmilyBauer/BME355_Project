@@ -119,7 +119,9 @@ class SwingPhase:
         self.gmax = 0.82                # idk what this is for
         self.LCE_opt = 0.082            # optimal contractile element length (fibre length at which optimal force can be generated)
         self.width_parameter = 0.56     # describing the overlapping of filaments in the sarcomere
-        self.v_max = 0                  # NOT SURE YET
+        self.v_max = 0                  # Graphs were found that showed the velocity of the TA throughout the gait cycle.
+                                        # https://www.researchgate.net/figure/Fig7-Simulation-results-of-walking-as-walking-speed-increases-from-60-to-120-PTS-for_fig2_7978272
+                                        # 
         self.max_isometric_force = 0    # NOT SURE YET
         self.muscle_excitation = muscle_excitation
 
@@ -165,6 +167,10 @@ class SwingPhase:
     def get_parallel_elastic_force():   #FPE is the parallel elastic force 
         #The following website has a force length curve for the TA that could be used to find K values as per Professor Tripp's email.
         #https://www.researchgate.net/figure/Optimized-force-length-FL-left-column-force-extension-FL-middle-column-and_fig2_51879942
+        #Data points were collected from the FdeltaL graph for the TA using webplot digitizer.
+        #The points were put into excel, where we calculate the slope between two of the collected points.
+        #This resulted in a value of approximately 27.8, which will be used for K.
+
         return 0
     
     def get_parallel_dampening_force(self): # FPD is the parallel damping element force
@@ -300,14 +306,16 @@ def get_angular_position_shank_regression():
         [0.3306451612903226, 19.277108433734963],
         [0.26013824884792625, 0.963855421686759]
     ])
+
     times = data[:, 0]
     angle = data[:, 1]
-    centres = np.arange()
+
+    centres = np.arange(0, 0.3, 0.1)
     width = .15
+    
     angular_position_function = Regression(times, angle, centres, width, 0.1, sigmoids = False)
     return angular_position_function
 
-    
 
 def get_ankle_velocity_x_regression():
     data_x = np.array([
@@ -351,7 +359,84 @@ def get_ankle_velocity_x_regression():
     return regression_function
 
 def get_ankle_velocity_y_regression():
+    data_y = np.array([
+        [0.3217579299395332, 0.0908016079451408],
+        [0.3795561260683038, 0.13208120798567702],
+        [0.4112758842009254, 0.21551869742931462],
+        [0.4365435935547073, 0.2990237475931492],
+        [0.46181130290848893, 0.38252879775698423],
+        [0.4739046718238016, 0.5080566158835254],
+        [0.47995135628145813, 0.5708205249467959],
+        [0.47934330979968265, 0.6650677296219978],
+        [0.5046110191534641, 0.7485727797858328],
+        [0.5105225821707258, 0.8322805121102594],
+        [0.5230888761274197, 0.8845049488227545],
+        [0.5291355605850756, 0.9472688578860253],
+        [0.5288653177042866, 0.989156504408337],
+        [0.5349795628821401, 1.0414485018410296],
+        [0.5410938080599939, 1.0937404992737223],
+        [0.5470053710772558, 1.177448231598149],
+        [0.5465324460358749, 1.2507516130121947],
+        [0.5590311792723708, 1.313447961355268],
+        [0.5779144005675099, 1.386548660608722],
+        [0.5967300611424515, 1.4701212714927543],
+        [0.6219977704962336, 1.5536263216565889],
+        [0.6538526500692496, 1.6161199878390704],
+        [0.6670269905077186, 1.574097219876364],
+        [0.6928351856230788, 1.573826976995575],
+        [0.7060095260615475, 1.5318042090328685],
+        [0.7255683545586591, 1.5001857919805426],
+        [0.7449920616153769, 1.4895111981893727],
+        [0.7646184508326856, 1.447420869506469],
+        [0.7713407424923149, 1.4054656622639599],
+        [0.7780630341519437, 1.3635104550214507],
+        [0.7783332770327329, 1.3216228084991388],
+        [0.7786035199135217, 1.279735161976827],
+        [0.7982299091308309, 1.2376448332939232],
+        [0.8114042495693006, 1.1956220653312166],
+        [0.8247137114481642, 1.132655474107354],
+        [0.8251866364895448, 1.0593520926933082],
+        [0.8255244400905315, 1.0069925345404183],
+        [0.8321116103097659, 0.985981150559065],
+        [0.8390365841299869, 0.912610208424822],
+        [0.8589332162280849, 0.8286322332196066],
+        [0.8593385805492686, 0.7658007634361386],
+        [0.878086680404013, 0.8598452859507486],
+        [0.8905854136405094, 0.9225416342938217],
+        [0.8835928791000913, 1.0063844880586428],
+        [0.9105496064588048, 0.8280917474580283],
+        [0.904435361280951, 0.7757997500253355],
+        [0.9111576529405803, 0.7338445427828264],
+        [0.9114954565415669, 0.6814849846299362],
+        [0.9119008208627506, 0.6186535148464685],
+        [0.9121710637435394, 0.5767658683241565],
+        [0.9252102827416142, 0.5556869236226061],
+        [0.925412964902206, 0.524271188730872],
+        [0.9258858899435867, 0.4509678073168262],
+        [0.9320676958416378, 0.4927878931189409],
+        [0.9327433030436103, 0.388068776813161],
+        [0.9325406208830185, 0.4194845117048951],
+        [0.926629057865757, 0.3357767793804687],
+        [0.9268993007465458, 0.29388913285815654],
+        [0.9271695436273351, 0.2520014863358444],
+        [0.9338242745667669, 0.22051819072391332],
+        [0.9469310542850387, 0.1889673343917848],
+        [0.959902712562916, 0.17836030132081193],
+        [0.9795291017802248, 0.1362699726379084],
+        [0.979799344661014, 0.09438232611559627],
+        [0.9800020268216059, 0.06296659122386261],
+        [0.9804073911427895, 0.00013512144039484753]
+    ])
     
+    
+    times_y = data_y[:,0]
+    velocity_y = data_y[:,1]
+    
+    times_y = times_y - min(times_y)
+    
+    centres2 = np.arange(0, 1, .2)
+    width2 = .15
+    regression_function2 = Regression(times_y, velocity_y, centres2, width2, .1, sigmoids=False)
 
-    return
+    return regression_function2
     
