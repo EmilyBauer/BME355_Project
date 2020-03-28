@@ -13,7 +13,7 @@ Sarah Schwartzel 	20710946
 class FootDynmics:
     def __init__(self, muscle_excitation):
         self.resting_MT_length = 0.381
-        self.mass_foot = 1.05           # mF is the mass of the foot (kg)   # (this value is from anthropometric data)
+        self.mass_foot = 1.05           # mF is the mass of the foot (kg). This value is from anthropometric data
         self.foot_center = 0.08         # cF is the foot’s center of mass location with respect to the ankle # WHERE FROM?
         self.lever_arm = 0.037          # d is the lever arm of the tibialis anterior at the ankle. d = 0.037
         self.tendon_length = 0.317      # lT is the tendon length constant. lT = 0.317
@@ -452,5 +452,50 @@ def force_velocity_muscle(vm):
     """
     return np.maximum(0, force_velocity_regression.eval(vm))
 
+def muscle_excitation_1(time):
+    percents = (time / 0.375 * 100) % 100
+    muscle_excitations = []
+    for percent in percents:
+        if percent < 0:
+            print("this is an issue! (x is less than 0)")
+            muscle_excit = 0
+        elif percent < 10:
+            muscle_excit = percent / 10
+        elif percent < 30:
+            muscle_excit = 1
+        elif percent < 40:
+            muscle_excit = -percent / 20 + 2.5
+        elif percent < 60:
+            muscle_excit = 0.5
+        elif percent < 80:
+            muscle_excit = -percent / 40 + 2
+        else:
+            muscle_excit = 0
+        muscle_excitations.append(muscle_excit)
+
+    return muscle_excitations
+
+def muscle_excitation_2(time):
+    percents = (time/0.375 *100)%100
+    muscle_excitations = []
+    for percent in percents:
+        if percent < 0:
+            print("this is an issue! (x is less than 0)")
+            muscle_excit = 0
+        elif percent < 15:
+            muscle_excit = 1
+        else:
+            muscle_excit = 2 ** (-1 * (percent - 12.678)) + 0.3
+
+        muscle_excitations.append(muscle_excit)
+
+    return muscle_excitations
+
 if __name__ == '__main__':
-        
+    
+    def activation():
+        a_min = 0.0001
+        def f(a):
+            if()  
+            
+    return
