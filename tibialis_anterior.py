@@ -143,7 +143,6 @@ def force_length_tendon(lt):
 
             else:
                 result[i] = 10 * (lt[i] - slack_length) + 240 * pow((lt[i] - slack_length), 2)
-
     return result
 
 
@@ -166,7 +165,6 @@ def force_length_parallel(lm):
 
             else:
                 result[i] = 3 * pow((lm[i] - slack_length),2)/(0.6 + lm[i] - slack_length)
-
     return result
 
 class Sid:
@@ -453,3 +451,6 @@ def force_velocity_muscle(vm):
     :return: force-velocity scale factor
     """
     return np.maximum(0, force_velocity_regression.eval(vm))
+
+if __name__ == '__main__':
+        
