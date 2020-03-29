@@ -492,10 +492,16 @@ def muscle_excitation_2(time):
     return muscle_excitations
 
 if __name__ == '__main__':
-    
     def activation():
         a_min = 0.0001
-        def f(a):
-            if()  
+        def f(a, t):
+            a_hat = (a - a_min)/(1-a_min)
+            if(excitation(t) > a):
+                tau = time_activation(0.5 + 1.5*a_hat)
+            else:
+                tau = time_deactivation/(0.5 + 1.5*a_hat)
+            return (excitation(t) - a_hat)/tau
+        
+        activation_sol = solve_ivp(f, [0, 0.3], )
             
     return
