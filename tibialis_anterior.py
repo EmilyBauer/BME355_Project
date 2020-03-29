@@ -496,12 +496,17 @@ if __name__ == '__main__':
         a_min = 0.0001
         def f(a, t):
             a_hat = (a - a_min)/(1-a_min)
-            if(excitation(t) > a):
+            if(muscle_excitation_1(t) > a):
                 tau = time_activation(0.5 + 1.5*a_hat)
             else:
                 tau = time_deactivation/(0.5 + 1.5*a_hat)
-            return (excitation(t) - a_hat)/tau
+            return (muscle_excitation_1(t) - a_hat)/tau
         
-        activation_sol = solve_ivp(f, [0, 0.3], )
+        activation_sol = solve_ivp(f, [0, 0.3], [1], max_step=.01, rtol=1e-5, atol=1e-8) #I don't know what the initial value should be
+        #how do we return both sol.y and sol.t?
+        plt.figure()
+        plt.plot(sol.t, sol.y.T)
+        plt.xlabel('Time (s)')
+        plt.ylabel('Activation')
             
     return
